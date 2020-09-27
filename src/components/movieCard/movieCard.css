@@ -1,0 +1,21 @@
+.movieCard {
+    margin: 20px;
+    height: 400px;
+    width: 250px;
+    text-align: -webkit-center;
+}
+
+.mediaImg{
+    height: 275px;
+    width: auto !important;
+    max-width: 280px;
+}
+
+.media-header{
+    display: block;
+    overflow: hidden;
+}
+
+.media-content{
+    padding: 5px !important;
+}

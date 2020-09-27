@@ -1,5 +1,15 @@
 .App {
   text-align: center;
+  width: 100%;
+}
+
+.content-container{
+  height: 100vh !important;
+}
+
+.sidebar-container{
+  margin: 0;
+  padding: 0 !important;
 }
 
 .App-logo {
@@ -11,15 +21,6 @@
   .App-logo {
     animation: App-logo-float infinite 3s ease-in-out;
   }
-}
-
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
 }
 
 .App-link {
