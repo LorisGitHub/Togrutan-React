@@ -1,10 +1,16 @@
-.home-container{
+.catalogue-container{
+    display: flex;
+    background: #e6e6e6;
+    height: 100%;
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+.movieCard-list{
     display: flex;
     flex-direction: row;
     overflow: overlay;
-    margin: 20px !important;
-    padding: 0 !important;
-    max-width: 100% !important;
+    height: fit-content;
 }
 
 .media-img {

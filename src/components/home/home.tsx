@@ -4,7 +4,7 @@ import './home.css';
 
 import axios from "axios";
 
-import Media, { API_URL } from "../../constants";
+import Media, {MEDIAS_URL} from "../../constants";
 
 class Home extends Component {
     media: Media[] = [];
@@ -18,7 +18,7 @@ class Home extends Component {
     }
 
     getmedia = () => {
-        axios.get(API_URL).then(res => this.setState({ media: res.data }));
+        axios.get(MEDIAS_URL).then(res => this.setState({ media: res.data }));
     };
 
     resetState = () => {
@@ -27,7 +27,8 @@ class Home extends Component {
 
     render() {
         return (
-            <div className="home-container">
+            <div className="catalogue-container">
+                <div className="movieCard-list">
                     {this.state == null || this.state.media == null || this.state.media.length <= 0 ? (
                         <p><b>Ops, no one here yet</b></p>
                     ) : (
@@ -35,6 +36,7 @@ class Home extends Component {
                             <MovieCard {...media}/>
                         ))
                     )}
+                </div>
             </div>
         );
     }

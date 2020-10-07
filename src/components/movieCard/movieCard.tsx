@@ -59,7 +59,7 @@ class MovieCard extends Component<Media, {}> {
             </div>
         );
         return (
-            <div>
+            <div className="movieCard-div">
                 <Card className="movieCard" onClick={() => this.handleOpen()}>
                     <CardActionArea className="movie-button">
                         <CardMedia component="img" className="mediaImg" image={media.Poster} title="Contemplative Reptile"/>

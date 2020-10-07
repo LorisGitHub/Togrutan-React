@@ -1,4 +1,6 @@
-export const API_URL = "http://127.0.0.1:8000/api/medias";
+export const MEDIAS_URL = "http://127.0.0.1:8000/api/medias";
+export const MEDIAS_PREVIEW_URL = "http://127.0.0.1:8000/api/medias_preview";
+export const MEDIA_BY_ID = "http://127.0.0.1:8000/api/getMediaFromImdbID";
 
 export interface Media {
     "Title": string,

@@ -6,7 +6,7 @@ import {Counter} from "../counter/Counter";
 class Content extends Component {
     render(){
         return (
-            <div className="content">
+            <div className="home-container">
                 <img src={logo} className="App-logo" alt="logo" />
                 <Counter />
                 <p>
