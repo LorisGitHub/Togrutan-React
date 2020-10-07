@@ -1,13 +1,14 @@
 .movieCard {
     margin: 20px;
-    height: 400px;
-    width: 250px;
+    min-width: 200px;
+    height: 325px;
     text-align: -webkit-center;
 }
 
 .mediaImg{
+    min-width: 200px;
     height: 275px;
-    width: auto !important;
+    /*width: auto !important;*/
     max-width: 280px;
 }
 
@@ -19,3 +20,35 @@
 .media-content{
     padding: 5px !important;
 }
+
+.modal-poster{
+    width: auto;
+    height: auto;
+    max-height: 300px;
+}
+
+.paper{
+    position: absolute;
+    width: 35vw;
+    background-color: white;
+    box-shadow: 10px 5px 5px black;
+    border-radius: 20px 5px;
+    outline: none;
+    padding: 5px;
+}
+
+.custom-modal-title{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/*.modal{*/
+/*    width: 500px;*/
+/*    background: white;*/
+/*    border: 1px solid #ccc;*/
+/*    transition: 1.1s ease-out;*/
+/*    filter: blur(0);*/
+/*    transform: scale(1);*/
+/*    opacity: 1;*/
+/*    visibility: visible;*/
+/*}*/
