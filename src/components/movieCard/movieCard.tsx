@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import Media from "../../constants"
 import './movieCard.css';
-import {Card, CardActionArea, CardContent, CardMedia, Modal, Typography} from "@material-ui/core";
-import {Container, Row, Col} from "react-bootstrap";
+import {AppBar, Card, CardActionArea, CardContent, CardMedia, Modal, Toolbar, Typography} from "@material-ui/core";
+import {Col, Container, Row} from "react-bootstrap";
+import Rating from '@material-ui/lab/Rating';
 
 function getModalStyle() {
     return {
@@ -34,25 +35,45 @@ class MovieCard extends Component<Media, {}> {
         const media = this.props;
         const body = (
             <div style={getModalStyle()} className="paper">
-                <h2 className="custom-modal-title">{media.Title}</h2>
                 <Container fluid>
-                    <Row style={{padding: '10px'}}>
-                        <Col md="auto">
+                    <Row>
+                        <Col md="auto" style={{padding: 0}}>
                             <img src={media.Poster} className="modal-poster" alt="logo" />
                         </Col>
                         <Col>
                             <Row>
-                                <span style={{fontWeight: 'bold'}}>Genre:&nbsp;</span> {media.Genre}
+                                <AppBar position="static" style={{height: '50px', alignItems: 'center', justifyContent: 'center'}}>
+                                    <Toolbar style={{height: '50px'}}>
+                                        <Typography variant="h6">
+                                            {media.Title}
+                                        </Typography>
+                                    </Toolbar>
+                                </AppBar>
                             </Row>
-                            <Row>
-                                <span style={{fontWeight: 'bold'}}>Director:&nbsp;</span> {media.Director}
-                            </Row>
-                            <Row>
-                                <span style={{fontWeight: 'bold'}}>Actors:&nbsp;</span>{media.Actors}
-                            </Row>
-                            <Row style={{marginTop: '20px'}}>
-                                {media.Plot}
-                            </Row>
+                            <Container style={{paddingTop: '15px'}}fluid>
+                                <Row>
+                                    <span style={{fontWeight: 'bold'}}>Released:&nbsp;</span> {media.Released}
+                                </Row>
+                                <Row>
+                                    <span style={{fontWeight: 'bold'}}>Genre:&nbsp;</span> {media.Genre}
+                                </Row>
+                                <Row>
+                                    <span style={{fontWeight: 'bold'}}>Rated:&nbsp;</span>{media.Rated}
+                                </Row>
+                                <Row>
+                                    <span style={{fontWeight: 'bold'}}>Director:&nbsp;</span> {media.Director}
+                                </Row>
+                                <Row>
+                                    <span style={{fontWeight: 'bold'}}>Actors:&nbsp;</span>{media.Actors}
+                                </Row>
+                                <Row style={{marginTop: '20px'}}>
+                                    <span style={{fontWeight: 'bold'}}>Plot:&nbsp;</span>{media.Plot}
+                                </Row>
+                                <Row style={{marginTop: '20px'}}>
+                                    <span style={{fontWeight: 'bold'}}>Rating:&nbsp;</span>
+                                    <Rating name="read-only" value={media.imdbRating} max={10} readOnly />
+                                </Row>
+                            </Container>
                         </Col>
                     </Row>
                 </Container>

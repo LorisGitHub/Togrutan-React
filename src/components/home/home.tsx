@@ -5,6 +5,8 @@ import './home.css';
 import axios from "axios";
 
 import Media, {MEDIAS_URL} from "../../constants";
+import {Typography} from "@material-ui/core";
+import {Row} from "react-bootstrap";
 
 class Home extends Component {
     media: Media[] = [];
