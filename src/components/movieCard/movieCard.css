@@ -5,6 +5,10 @@
     text-align: -webkit-center;
 }
 
+.movie-button{
+    height: 325px;
+}
+
 .mediaImg{
     min-width: 200px;
     height: 275px;
@@ -18,6 +22,11 @@
 }
 
 .media-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 50px;
     padding: 5px !important;
 }
 

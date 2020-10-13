@@ -1,0 +1,13 @@
+.preview-container{
+    position: fixed !important;
+    width: 18rem;
+    height: min-content;
+    z-index: 10000;
+    left: 178px;
+    top: 54px;
+}
+
+.preview-image{
+    width: auto;
+    height: 75px;
+}

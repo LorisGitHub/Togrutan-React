@@ -6,7 +6,10 @@ import {
   incrementByAmount,
   incrementAsync,
   selectCount,
-} from './counterSlice';
+} from '../../store/counter/counterSlice';
+import {
+  loadAll,
+} from '../../store/media/mediaSlice';
 import styles from './Counter.module.css';
 
 export function Counter() {
@@ -20,7 +23,7 @@ export function Counter() {
         <button
           className={styles.button}
           aria-label="Increment value"
-          onClick={() => dispatch(increment())}
+          onClick={() => dispatch(loadAll())}
         >
           +
         </button>

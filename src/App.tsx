@@ -12,7 +12,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import Home from "./components/home/home";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
@@ -25,16 +24,16 @@ import HomeIcon from '@material-ui/icons/Home';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import EventIcon from '@material-ui/icons/Event';
 import ForumIcon from '@material-ui/icons/Forum';
-import {Container} from "react-bootstrap";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route, Link,
-} from "react-router-dom";
+import {Card, CardImg, Container} from "react-bootstrap";
+import {BrowserRouter as Router, Link, Route, Switch,} from "react-router-dom";
 import Content from "./components/content/content";
 import clsx from "clsx";
-import axios from "axios";
-import {MEDIAS_PREVIEW_URL} from "./constants";
+import {Home} from "./components/home/home";
+import {useDispatch, useSelector} from "react-redux";
+import {loadAllPreview, setSearchFilter, selectMediasPreview, selectMediasPreviewFilter} from "./store/mediaPreview/mediaPreviewSlice";
+import './App.css';
+import {CardContent} from "@material-ui/core";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -130,8 +129,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ClippedDrawer() {
+export default function App() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const previews = useSelector(selectMediasPreview);
+    const filter = useSelector(selectMediasPreviewFilter);
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
 
@@ -140,8 +142,10 @@ export default function ClippedDrawer() {
     };
 
     const onSearch = (event) => {
-        console.log(event.target.value);
-        axios.get(MEDIAS_PREVIEW_URL.concat('?data=').concat(event.target.value)).then(res => console.log(res.data));
+        dispatch(setSearchFilter(event.target.value));
+        if(event.target.value && event.target.value.length >= 3){
+            dispatch(loadAllPreview(event.target.value));
+        }
     };
 
     return (
@@ -253,6 +257,37 @@ export default function ClippedDrawer() {
                         </List>
                     </div>
                 </Drawer>
+{/*                <div className="preview-container">
+                    <ul>
+                        {previews == null || previews.length <= 0 ? (
+                            <p><b>Ops, no one here yet</b></p>
+                        ) : (
+                            previews.map(preview => (
+                                <li>
+                                    <Card>
+                                        <CardImg variant="left" className="preview-image" src={preview.picture}></CardImg>
+                                    </Card>
+                                    <CardContent>
+                                        {preview.name}
+                                    </CardContent>
+                                </li>
+                            ))
+                        )}
+                    </ul>
+                </div>*/}
+                {previews && previews.length > 0 && filter && filter.length >= 3?
+                    <div className="card preview-container">
+                        <ul className="list-group list-group-flush">
+                            <div>
+                                {previews.map(preview =>
+                                    <li className="list-group-item">
+                                        {preview.name}
+                                    </li>
+                                )}
+                            </div>
+                        </ul>
+                    </div>: null
+                }
                 <main className={classes.grow}>
                     <Container className="full-width-container">
                         <Toolbar />

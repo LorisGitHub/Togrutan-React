@@ -9,7 +9,7 @@
 .movieCard-list{
     display: flex;
     flex-direction: row;
-    overflow: overlay;
+    overflow: auto;
     height: fit-content;
 }
 
