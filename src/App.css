@@ -19,3 +19,11 @@
 .ml-20{
     margin-left: 20px !important;
 }
+
+.bg-red{
+    background: red;
+}
+
+.bg-green{
+    background: green;
+}

@@ -24,15 +24,20 @@ import HomeIcon from '@material-ui/icons/Home';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import EventIcon from '@material-ui/icons/Event';
 import ForumIcon from '@material-ui/icons/Forum';
-import {Card, CardImg, Container} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import {BrowserRouter as Router, Link, Route, Switch,} from "react-router-dom";
 import Content from "./components/content/content";
+import Home from "./components/home/home";
 import clsx from "clsx";
-import {Home} from "./components/home/home";
+import {Catalogue} from "./components/catalogue/catalogue";
 import {useDispatch, useSelector} from "react-redux";
-import {loadAllPreview, setSearchFilter, selectMediasPreview, selectMediasPreviewFilter} from "./store/mediaPreview/mediaPreviewSlice";
+import {
+    loadAllPreview,
+    selectMediasPreview,
+    selectMediasPreviewFilter,
+    setSearchFilter
+} from "./store/mediaPreview/mediaPreviewSlice";
 import './App.css';
-import {CardContent} from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -241,7 +246,7 @@ export default function App() {
                                     <ListItemText>Catalogue</ListItemText>
                                 </ListItem>
                             </Link>
-                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">
+                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/content">
                                 <ListItem button>
                                     <ListItemIcon><EventIcon /></ListItemIcon>
                                     <ListItemText>Agenda</ListItemText>
@@ -301,10 +306,13 @@ export default function App() {
                         <Toolbar />
                         <Switch>
                             <Route path="/home">
-                                <Content/>
-                            </Route>
-                            <Route path="/">
                                 <Home/>
+                            </Route>
+                            <Route path="/catalogue">
+                                <Catalogue/>
+                            </Route>
+                            <Route path="/content">
+                                <Content/>
                             </Route>
                         </Switch>
                     </Container>

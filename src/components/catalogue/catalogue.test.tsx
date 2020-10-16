@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './home';
+import Home from './catalogue';
 
 it('It should mount', () => {
   const div = document.createElement('div');

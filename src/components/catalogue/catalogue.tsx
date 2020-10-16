@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import MovieCard from "../movieCard/movieCard";
-import './home.css';
+import './catalogue.css';
 import {useDispatch, useSelector} from "react-redux";
 import {loadAll, selectMedias, selectMediasByGenre} from "../../store/media/mediaSlice";
 import Media from "../../constants";
@@ -28,10 +28,10 @@ function getMediaByGenre(medias: Media[], genre: string){
     return null;
 }
 
-export function Home (){
+export function Catalogue (){
     const dispatch = useDispatch();
     const medias = useSelector(selectMedias);
-    const genres: string[] = ['Sci-Fi', 'Action', 'Fantasy', 'Thriller', 'Horror'];
+    const genres: string[] = ['Sci-Fi', 'Action', 'Fantasy', 'Thriller', 'Horror', 'Comedy', 'Romance', 'Mystery', 'Crime', 'Adventure', 'Animation', 'SuperHero'];
 
     useEffect(() => {
         dispatch(loadAll(0));

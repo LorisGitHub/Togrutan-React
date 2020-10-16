@@ -81,6 +81,7 @@ class MovieCard extends Component<Media, {}> {
         );
         return (
             <div className="movieCard-div">
+                <p className={media.Type.toLowerCase() === 'movie' ? 'bg-red media-type-badge':'bg-green media-type-badge'}>{media.Type.toLowerCase() === 'movie' ? 'M':'S'}</p>
                 <Card className="movieCard" onClick={() => this.handleOpen()}>
                     <CardActionArea className="movie-button">
                         <CardMedia component="img" className="mediaImg" image={media.Poster} title="Contemplative Reptile"/>
