@@ -24,7 +24,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import EventIcon from '@material-ui/icons/Event';
 import ForumIcon from '@material-ui/icons/Forum';
-import {Container} from "react-bootstrap";
+import {Container, Row} from "react-bootstrap";
 import {BrowserRouter as Router, Link, Route, Switch,} from "react-router-dom";
 import Content from "./components/content/content";
 import Home from "./components/home/home";
@@ -141,10 +141,15 @@ export default function App() {
     const filter = useSelector(selectMediasPreviewFilter);
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
+    const [previewsFocus, setpreviewsFocus] = React.useState(true);
 
     const handleDrawerOpen = () => {
         setOpen(!open);
     };
+
+    const onFocus = (event) => {
+        console.log(event);
+    }
 
     const onSearch = (event) => {
         dispatch(setSearchFilter(event.target.value));
@@ -270,31 +275,20 @@ export default function App() {
                         </List>
                     </div>
                 </Drawer>
-{/*                <div className="preview-container">
-                    <ul>
-                        {previews == null || previews.length <= 0 ? (
-                            <p><b>Ops, no one here yet</b></p>
-                        ) : (
-                            previews.map(preview => (
-                                <li>
-                                    <Card>
-                                        <CardImg variant="left" className="preview-image" src={preview.picture}></CardImg>
-                                    </Card>
-                                    <CardContent>
-                                        {preview.name}
-                                    </CardContent>
-                                </li>
-                            ))
-                        )}
-                    </ul>
-                </div>*/}
                 {previews && previews.length > 0 && filter && filter.length >= 3?
                     <div className="card preview-container">
                         <ul className="list-group list-group-flush">
                             <div>
                                 {previews.map(preview =>
                                     <li className="list-group-item">
-                                        {preview.name}
+                                        <Row style={{ width: '100%'}}>
+                                            <div style={{ width: '25%'}}>
+                                                <img src={preview.picture} style={{ height: '75px', width: 'auto'}}/>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', marginLeft: '15px', width: '60%'}}>
+                                                {preview.name}
+                                            </div>
+                                        </Row>
                                     </li>
                                 )}
                             </div>

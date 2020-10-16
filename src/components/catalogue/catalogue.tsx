@@ -1,9 +1,10 @@
 import React, {useEffect} from "react";
-import MovieCard from "../movieCard/movieCard";
 import './catalogue.css';
 import {useDispatch, useSelector} from "react-redux";
 import {loadAll, selectMedias, selectMediasByGenre} from "../../store/media/mediaSlice";
-import Media from "../../constants";
+import {Media} from "../../constants";
+import {loadAllUsers} from "../../store/user/userSlice";
+import MovieCard from "../movieCard/movieCard";
 
 function getMediaByGenre(medias: Media[], genre: string){
     const filteredMedia: Media[] = [];
@@ -17,8 +18,8 @@ function getMediaByGenre(medias: Media[], genre: string){
             <div className="catalogue-genre-list">
                 <h1 className="ml-20">{genre}</h1>
                 <div className="movieCard-list">
-                    {filteredMedia.map(mediaf => (
-                        <MovieCard {...mediaf}/>
+                    {filteredMedia.map((mediaf, index) => (
+                        <MovieCard key={mediaf.Title} media={mediaf}/>
                     ))}
                 </div>
                 <br></br>
@@ -35,6 +36,7 @@ export function Catalogue (){
 
     useEffect(() => {
         dispatch(loadAll(0));
+        dispatch(loadAllUsers(0));
     }, []);
 
     return (

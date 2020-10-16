@@ -1,4 +1,5 @@
 export const MEDIAS_URL = "http://127.0.0.1:8000/api/medias";
+export const USERS_URL = "http://127.0.0.1:8000/api/users";
 export const MEDIAS_PREVIEW_URL = "http://127.0.0.1:8000/api/medias_preview";
 export const MEDIA_BY_ID = "http://127.0.0.1:8000/api/getMediaFromImdbID";
 
@@ -28,4 +29,10 @@ export interface Media {
     "Website": string
 }
 
-export default Media;
+export interface User {
+    "Username": string,
+    "Password": string,
+    "Viewed": string,
+    "PlanToWatch": string,
+    "Dropped": string,
+}
