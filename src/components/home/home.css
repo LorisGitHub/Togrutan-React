@@ -1,9 +1,14 @@
 .catalogue-container{
-    display: flex;
     background: #e6e6e6;
     height: 100%;
     padding: 0 !important;
     max-width: 100% !important;
+}
+
+.catalogue-genre-list{
+    height: min-content;
+    display: inline-block;
+    width: 100%;
 }
 
 .movieCard-list{

@@ -229,22 +229,30 @@ export default function App() {
                     <Toolbar />
                     <div>
                         <List>
-                            <ListItem button>
-                                <ListItemIcon><HomeIcon /></ListItemIcon>
-                                <ListItemText><Link style={{ textDecoration: 'none', color: 'black' }} to="/home">Home</Link></ListItemText>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon><LocalLibraryIcon /></ListItemIcon>
-                                <ListItemText><Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">Catalogue</Link></ListItemText>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon><EventIcon /></ListItemIcon>
-                                <ListItemText><Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">Agenda</Link></ListItemText>
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon><ForumIcon /></ListItemIcon>
-                                <ListItemText><Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">Forum</Link></ListItemText>
-                            </ListItem>
+                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/home">
+                                <ListItem button>
+                                    <ListItemIcon><HomeIcon /></ListItemIcon>
+                                    <ListItemText>Home</ListItemText>
+                                </ListItem>
+                            </Link>
+                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">
+                                <ListItem button>
+                                    <ListItemIcon><LocalLibraryIcon /></ListItemIcon>
+                                    <ListItemText>Catalogue</ListItemText>
+                                </ListItem>
+                            </Link>
+                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">
+                                <ListItem button>
+                                    <ListItemIcon><EventIcon /></ListItemIcon>
+                                    <ListItemText>Agenda</ListItemText>
+                                </ListItem>
+                            </Link>
+                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">
+                                <ListItem button>
+                                    <ListItemIcon><ForumIcon /></ListItemIcon>
+                                    <ListItemText>Forum</ListItemText>
+                                </ListItem>
+                            </Link>
                         </List>
                         <Divider />
                         <List>
@@ -295,7 +303,7 @@ export default function App() {
                             <Route path="/home">
                                 <Content/>
                             </Route>
-                            <Route path="/catalogue">
+                            <Route path="/">
                                 <Home/>
                             </Route>
                         </Switch>

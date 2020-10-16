@@ -11,3 +11,11 @@
     width: auto;
     height: 75px;
 }
+
+.app-bg{
+    background: #e6e6e6 !important;
+}
+
+.ml-20{
+    margin-left: 20px !important;
+}

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSelector, createSlice} from '@reduxjs/toolkit';
 import {MEDIAS_URL} from "../../constants";
 import axios from "axios";
 
@@ -23,5 +23,14 @@ export const loadAll = amount => dispatch => {
 };
 
 export const selectMedias = state => state.media.value;
+
+export const selectMediasByGenre = genre => createSelector(
+    selectMedias,
+    medias => {
+        return medias.filter(media => {
+            return media.Genre.toLowerCase().includes(genre.toLowerCase());
+        });
+    }
+)
 
 export default mediaSlice.reducer;

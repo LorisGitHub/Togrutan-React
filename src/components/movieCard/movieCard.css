@@ -39,6 +39,7 @@
 
 .movieCard-div{
     height: fit-content;
+    width: min-content;
 }
 
 .paper{
