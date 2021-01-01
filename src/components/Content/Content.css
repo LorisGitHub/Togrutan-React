@@ -1,0 +1,9 @@
+.home-container{
+    display: flex;
+    flex-flow: column;
+    background: #e6e6e6;
+    height: 100%;
+    padding: 0 !important;
+    max-width: 100% !important;
+    text-align: center;
+}

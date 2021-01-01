@@ -1,8 +1,16 @@
+.MuiButtonBase-root{
+    outline: none !important;
+}
+
+iconbutton{
+    outline: none;
+}
+
 .preview-container{
     position: fixed !important;
     width: 18rem;
     height: min-content;
-    z-index: 10000;
+    z-index: 1300;
     left: 178px;
     top: 54px;
 }
@@ -10,6 +18,11 @@
 .preview-image{
     width: auto;
     height: 75px;
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
 }
 
 .app-bg{

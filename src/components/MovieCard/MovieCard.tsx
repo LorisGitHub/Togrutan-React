@@ -1,5 +1,5 @@
 import React from 'react';
-import './movieCard.css';
+import './MovieCard.css';
 import {AppBar, Card, CardActionArea, CardContent, CardMedia, Modal, Toolbar, Typography} from "@material-ui/core";
 import {Col, Container, Row} from "react-bootstrap";
 import Rating from '@material-ui/lab/Rating';
@@ -18,13 +18,13 @@ export default function MovieCard(props) {
 
     return (
         <div className="movieCard-div">
-            <p className={props.media.Type.toLowerCase() === 'movie' ? 'bg-red media-type-badge':'bg-green media-type-badge'}>{props.media.Type.toLowerCase() === 'movie' ? 'M':'S'}</p>
+            <p className={props.media.type.toLowerCase() === 'movie' ? 'bg-red media-type-badge':'bg-green media-type-badge'}>{props.media.type.toLowerCase() === 'movie' ? 'M':'S'}</p>
             <Card className="movieCard" onClick={() => setOpen(true)}>
                 <CardActionArea className="movie-button">
-                    <CardMedia component="img" className="mediaImg" image={props.media.Poster} title="Contemplative Reptile"/>
+                    <CardMedia component="img" className="mediaImg" image={props.media.image}/>
                     <CardContent className="media-content">
                         <Typography variant="body2">
-                            {props.media.Title}
+                            {props.media.title}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
@@ -37,27 +37,27 @@ export default function MovieCard(props) {
                     <Container fluid>
                         <Row>
                             <Col md="auto" style={{padding: 0}}>
-                                <img src={props.media.Poster} className="modal-poster" alt="logo" />
+                                <img src={props.media.image} className="modal-poster" alt="logo" />
                             </Col>
                             <Col>
                                 <Row>
                                     <AppBar position="static" style={{height: '50px', alignItems: 'center', justifyContent: 'center'}}>
                                         <Toolbar style={{height: '50px'}}>
                                             <Typography variant="h6">
-                                                {props.media.Title}
+                                                {props.media.title}
                                             </Typography>
                                         </Toolbar>
                                     </AppBar>
                                 </Row>
                                 <Container style={{paddingTop: '15px'}} fluid>
                                     <Row>
-                                        {props.media.Year}
+                                        {props.media.year}
                                     </Row>
                                     <Row>
-                                        {props.media.Runtime} {props.media.Rated}
+                                        {props.media.runtime} {props.media.rated}
                                     </Row>
                                     <Row style={{marginTop: '20px', marginBottom: '20px'}}>
-                                        {props.media.Plot}
+                                        {props.media.plot}
                                     </Row>
                                     <Row>
                                         <Col md="2">
@@ -73,13 +73,13 @@ export default function MovieCard(props) {
                                         </Col>
                                         <Col md="5">
                                             <Row>
-                                                {props.media.Director}
+                                                {props.media.director}
                                             </Row>
                                             <Row>
-                                                {props.media.Genre}
+                                                {props.media.genre}
                                             </Row>
                                             <Row>
-                                                {props.media.Production}
+                                                {props.media.production}
                                             </Row>
                                         </Col>
                                         <Col md="5" style={{alignItems: 'center'}}>

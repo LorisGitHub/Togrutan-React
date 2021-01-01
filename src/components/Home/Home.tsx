@@ -1,7 +1,7 @@
 import React from 'react';
-import './home.css';
+import './Home.css';
 import Carousel from "react-material-ui-carousel";
-import {Button, List, ListItem, Paper} from "@material-ui/core";
+import {List, ListItem, Paper} from "@material-ui/core";
 import {Col, Row} from "react-bootstrap";
 
 function Item(props)
@@ -14,7 +14,7 @@ function Item(props)
     )
 }
 
-export function Home (){
+export default function Home (){
 
     const items = [
         {
@@ -101,7 +101,7 @@ export function Home (){
                     <List>
                         {
                             newsList.map( (news, i) =>
-                                <ListItem style={{ fontWeight: 'bold', borderBottom: '1px solid grey'}}>{news.description}</ListItem>
+                                <ListItem key={i} style={{ fontWeight: 'bold', borderBottom: '1px solid grey'}}>{news.description}</ListItem>
                             )
                         }
                     </List>
@@ -111,7 +111,7 @@ export function Home (){
             <Row>
                     {
                         newsList2.map( (news, i) =>
-                            <Paper style={{ maxWidth: 400, height: 'auto', margin: '25px 25px 0 0'}}>
+                            <Paper key={i} style={{ maxWidth: 400, height: 'auto', margin: '25px 25px 0 0'}}>
                                 <img src={news.img} style={{ maxWidth: 400, height: 'auto'}}/>
                                 <p>{news.description}</p>
                             </Paper>
@@ -121,5 +121,3 @@ export function Home (){
         </div>
     );
 }
-
-export default Home;

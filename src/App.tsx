@@ -1,286 +1,183 @@
-import React from 'react';
-import {fade, makeStyles, useTheme} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import React, {useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import HomeIcon from '@material-ui/icons/Home';
-import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-import EventIcon from '@material-ui/icons/Event';
-import ForumIcon from '@material-ui/icons/Forum';
-import {Container, Row} from "react-bootstrap";
-import {BrowserRouter as Router, Link, Route, Switch,} from "react-router-dom";
-import Content from "./components/content/content";
-import Home from "./components/home/home";
-import clsx from "clsx";
-import {Catalogue} from "./components/catalogue/catalogue";
+import {Col, Container, Row} from "react-bootstrap";
+import {Button, FormControl, Input, InputLabel, Modal} from "@material-ui/core"
+import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
+import Content from "./components/Content/Content";
+import Home from "./components/Home/Home";
+import Catalogue from "./components/Catalogue/Catalogue";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    loadAllPreview,
-    selectMediasPreview,
-    selectMediasPreviewFilter,
-    setSearchFilter
-} from "./store/mediaPreview/mediaPreviewSlice";
+import {selectMediasPreview, selectMediasPreviewFilter} from "./store/mediaPreview/mediaPreviewSlice";
 import './App.css';
-
-const drawerWidth = 240;
+import {login, loginSuccess} from "./store/user/userSlice";
+import Profile from "./components/Profile/Profile";
+import {loadMediaById, selectCurrentMedia, setCurrentMedia} from "./store/media/mediaSlice";
+import Rating from "@material-ui/lab/Rating";
+import SideBar from "./components/SideBar/SideBar";
+import ApplicationBar from "./components/ApplicationBar/ApplicationBar";
+import {selectLoginModal, setLoginModal} from "./store/app/appSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerOpen: {
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerClose: {
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: 'hidden',
-
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(8) + 1,
-        },
-    },
     grow: {
         flexGrow: 1,
     },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-    },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(3),
-            width: 'auto',
-        },
-    },
-    searchIcon: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-    },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
 }));
+
+function getModalStyle() {
+    return {
+        top: `50%`,
+        left: `50%`,
+        transform: `translate(-50%, -50%)`,
+    };
+}
 
 export default function App() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const previews = useSelector(selectMediasPreview);
     const filter = useSelector(selectMediasPreviewFilter);
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(true);
-    const [previewsFocus, setpreviewsFocus] = React.useState(true);
+    const currentMedia = useSelector(selectCurrentMedia);
+    const signInModalOpen = useSelector(selectLoginModal);
 
-    const handleDrawerOpen = () => {
-        setOpen(!open);
-    };
+    useEffect(() => {
+        if(localStorage.getItem('JWT') && localStorage.getItem('username')){
+            dispatch(loginSuccess({token: localStorage.getItem('JWT'), username: localStorage.getItem('username')}));
+        }
+    }, []);
 
-    const onFocus = (event) => {
-        console.log(event);
+    let username = '';
+    let password = '';
+
+    const onUpdateUsername = (event) => {
+        username = event.target.value;
     }
 
-    const onSearch = (event) => {
-        dispatch(setSearchFilter(event.target.value));
-        if(event.target.value && event.target.value.length >= 3){
-            dispatch(loadAllPreview(event.target.value));
-        }
-    };
+    const onUpdatePassword = (event) => {
+        password = event.target.value;
+    }
+
+    const onLogin = () => {
+        dispatch(login({username, password}))
+    }
+
+    const onSelectMoviePreview = (imdbID) => {
+        dispatch(loadMediaById(imdbID));
+    }
+
+    const onCloseLoginModal = () => {
+        dispatch(setLoginModal(false));
+    }
+
+    const onCloseCurrentMediaModal = () => {
+        dispatch(setCurrentMedia(null));
+    }
 
     return (
         <Router>
             <div className={classes.root}>
                 <CssBaseline />
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
-                        <IconButton
-                            style={{outline: 'none'}}
-                            edge="start"
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography className={classes.title} variant="h6" noWrap>
-                            Togrutan
-                        </Typography>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                                onChange={onSearch}
-                            />
+                <ApplicationBar/>
+                <SideBar/>
+                {signInModalOpen ?
+                    <Modal
+                        disableAutoFocus={true}
+                        open={signInModalOpen}
+                        onClose={() => onCloseLoginModal()}>
+                        <div style={getModalStyle()} className="loginModal">
+                            <Container fluid className="flex-column">
+                                <form className="flex-column">
+                                    <FormControl>
+                                        <InputLabel>Username</InputLabel>
+                                        <Input onChange={onUpdateUsername} type='text'></Input>
+                                    </FormControl>
+                                    <FormControl>
+                                        <InputLabel>Password</InputLabel>
+                                        <Input onChange={onUpdatePassword} type='password'></Input>
+                                    </FormControl>
+                                    <Button onClick={() => onLogin()}>Sign in</Button>
+                                </form>
+                            </Container>
                         </div>
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            <IconButton aria-label="show 4 new mails" color="inherit">
-                                <Badge badgeContent={4} color="secondary">
-                                    <MailIcon />
-                                </Badge>
-                            </IconButton>
-                            <IconButton aria-label="show 17 new notifications" color="inherit">
-                                <Badge badgeContent={17} color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton>
-                            <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-haspopup="true"
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
+                    </Modal>: null
+                }
+                {currentMedia ?
+                    <Modal
+                        disableAutoFocus={true}
+                        open={currentMedia}
+                        onClose={() => onCloseCurrentMediaModal()}>
+                        <div style={getModalStyle()} className="paper">
+                            <Container fluid>
+                                <Row>
+                                    <Col md="auto" style={{padding: 0}}>
+                                        <img src={currentMedia.image} className="modal-poster" alt="logo" />
+                                    </Col>
+                                    <Col>
+                                        <Row>
+                                            <AppBar position="static" style={{height: '50px', alignItems: 'center', justifyContent: 'center'}}>
+                                                <Toolbar style={{height: '50px'}}>
+                                                    <Typography variant="h6">
+                                                        {currentMedia.title}
+                                                    </Typography>
+                                                </Toolbar>
+                                            </AppBar>
+                                        </Row>
+                                        <Container style={{paddingTop: '15px'}} fluid>
+                                            <Row>
+                                                {currentMedia.year}
+                                            </Row>
+                                            <Row>
+                                                {currentMedia.runtime} {currentMedia.rated}
+                                            </Row>
+                                            <Row style={{marginTop: '20px', marginBottom: '20px'}}>
+                                                {currentMedia.plot}
+                                            </Row>
+                                            <Row>
+                                                <Col md="2">
+                                                    <Row>
+                                                        Réalisation
+                                                    </Row>
+                                                    <Row>
+                                                        Genre
+                                                    </Row>
+                                                    <Row>
+                                                        Studio
+                                                    </Row>
+                                                </Col>
+                                                <Col md="5">
+                                                    <Row>
+                                                        {currentMedia.director}
+                                                    </Row>
+                                                    <Row>
+                                                        {currentMedia.genre}
+                                                    </Row>
+                                                    <Row>
+                                                        {currentMedia.production}
+                                                    </Row>
+                                                </Col>
+                                                <Col md="5" style={{alignItems: 'center'}}>
+                                                    <Rating name="read-only" value={currentMedia.imdbRating} max={10} readOnly />
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </Col>
+                                </Row>
+                            </Container>
                         </div>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-haspopup="true"
-                                color="inherit"
-                            >
-                                <MoreIcon />
-                            </IconButton>
-                        </div>
-                    </Toolbar>
-                </AppBar>
-                <Drawer
-                    variant="permanent"
-                    className={clsx(classes.drawer, {
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    })}
-                    classes={{
-                        paper: clsx({
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
-                        }),
-                    }}
-                >
-                    <Toolbar />
-                    <div>
-                        <List>
-                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/home">
-                                <ListItem button>
-                                    <ListItemIcon><HomeIcon /></ListItemIcon>
-                                    <ListItemText>Home</ListItemText>
-                                </ListItem>
-                            </Link>
-                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">
-                                <ListItem button>
-                                    <ListItemIcon><LocalLibraryIcon /></ListItemIcon>
-                                    <ListItemText>Catalogue</ListItemText>
-                                </ListItem>
-                            </Link>
-                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/content">
-                                <ListItem button>
-                                    <ListItemIcon><EventIcon /></ListItemIcon>
-                                    <ListItemText>Agenda</ListItemText>
-                                </ListItem>
-                            </Link>
-                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">
-                                <ListItem button>
-                                    <ListItemIcon><ForumIcon /></ListItemIcon>
-                                    <ListItemText>Forum</ListItemText>
-                                </ListItem>
-                            </Link>
-                        </List>
-                        <Divider />
-                        <List>
-                            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                                <ListItem button key={text}>
-                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                    <ListItemText primary={text} />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </div>
-                </Drawer>
+                    </Modal>:null
+                }
                 {previews && previews.length > 0 && filter && filter.length >= 3?
                     <div className="card preview-container">
                         <ul className="list-group list-group-flush">
                             <div>
-                                {previews.map(preview =>
-                                    <li className="list-group-item">
+                                {previews.map((preview,i) =>
+                                    <li key={i} onClick={() => onSelectMoviePreview(preview.imdbID)} className="list-group-item">
                                         <Row style={{ width: '100%'}}>
                                             <div style={{ width: '25%'}}>
                                                 <img src={preview.picture} style={{ height: '75px', width: 'auto'}}/>
@@ -307,6 +204,9 @@ export default function App() {
                             </Route>
                             <Route path="/content">
                                 <Content/>
+                            </Route>
+                            <Route path="/profile">
+                                <Profile/>
                             </Route>
                         </Switch>
                     </Container>

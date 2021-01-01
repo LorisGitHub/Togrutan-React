@@ -1,38 +1,40 @@
 export const MEDIAS_URL = "http://127.0.0.1:8000/api/medias";
+export const GET_MEDIA_BY_ID = "http://127.0.0.1:8000/api/getMediaFromImdbID";
+export const GET_MULTIPLE_MEDIAS = "http://127.0.0.1:8000/api/getMultipleMediaFromImdbID";
 export const USERS_URL = "http://127.0.0.1:8000/api/users";
+export const SIGN_IN = "http://127.0.0.1:8000/api-token-auth/";
 export const MEDIAS_PREVIEW_URL = "http://127.0.0.1:8000/api/medias_preview";
-export const MEDIA_BY_ID = "http://127.0.0.1:8000/api/getMediaFromImdbID";
 
 export interface Media {
-    "Title": string,
-    "Year": number,
-    "Rated": string,
-    "Released": string,
-    "Runtime": string,
-    "Genre": string,
-    "Director": string,
-    "Writer": string,
-    "Actors": string,
-    "Plot": string,
-    "Language": string,
-    "Country": string,
-    "Awards": string,
-    "Poster": string,
-    "Metascore": number,
-    "imdbRating": number,
-    "imdbVotes": number,
-    "imdbID": string,
-    "Type": string,
-    "DVD": string,
-    "BoxOffice": string,
-    "Production": string,
-    "Website": string
+    title: string,
+    year: number,
+    rated: string,
+    released: string,
+    runtime: string,
+    genre: string,
+    director: string,
+    writer: string,
+    actors: string,
+    plot: string,
+    language: string,
+    country: string,
+    awards: string,
+    poster: string,
+    metascore: number,
+    imdbRating: number,
+    imdbVotes: number,
+    imdbID: string,
+    type: string,
+    dvd: string,
+    boxOffice: string,
+    production: string,
+    website: string
 }
 
 export interface User {
-    "Username": string,
-    "Password": string,
-    "Viewed": string,
-    "PlanToWatch": string,
-    "Dropped": string,
+    username: string,
+    password: string,
+    viewed: string,
+    planToWatch: string,
+    dropped: string,
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import home from './home';
+import Catalogue from "./Catalogue";
 
 it('It should mount', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<home />, div);
+  ReactDOM.render(<Catalogue />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
