@@ -1,25 +1,24 @@
 import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import {Col, Container, Row} from "react-bootstrap";
+import {Container, Row} from "react-bootstrap";
 import {Button, FormControl, Input, InputLabel, Modal} from "@material-ui/core"
 import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
-import Content from "./components/Content/Content";
+import Agenda from "./components/Agenda/Agenda";
 import Home from "./components/Home/Home";
 import Catalogue from "./components/Catalogue/Catalogue";
 import {useDispatch, useSelector} from "react-redux";
 import {selectMediasPreview, selectMediasPreviewFilter} from "./store/mediaPreview/mediaPreviewSlice";
 import './App.css';
-import {login, loginSuccess} from "./store/user/userSlice";
+import {getUserInfo, login, loginSuccess, selectCurrentUser} from "./store/user/userSlice";
 import Profile from "./components/Profile/Profile";
-import {loadMediaById, selectCurrentMedia, setCurrentMedia} from "./store/media/mediaSlice";
-import Rating from "@material-ui/lab/Rating";
+import {loadMediaById, selectCurrentMedia} from "./store/media/mediaSlice";
 import SideBar from "./components/SideBar/SideBar";
 import ApplicationBar from "./components/ApplicationBar/ApplicationBar";
 import {selectLoginModal, setLoginModal} from "./store/app/appSlice";
+import MediaModal from "./components/MediaModal/MediaModal";
+import Forum from "./components/Forum/Forum";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,10 +44,12 @@ export default function App() {
     const filter = useSelector(selectMediasPreviewFilter);
     const currentMedia = useSelector(selectCurrentMedia);
     const signInModalOpen = useSelector(selectLoginModal);
+    const currentUser = useSelector(selectCurrentUser);
 
     useEffect(() => {
         if(localStorage.getItem('JWT') && localStorage.getItem('username')){
             dispatch(loginSuccess({token: localStorage.getItem('JWT'), username: localStorage.getItem('username')}));
+            dispatch(getUserInfo(localStorage.getItem('username')));
         }
     }, []);
 
@@ -75,10 +76,6 @@ export default function App() {
         dispatch(setLoginModal(false));
     }
 
-    const onCloseCurrentMediaModal = () => {
-        dispatch(setCurrentMedia(null));
-    }
-
     return (
         <Router>
             <div className={classes.root}>
@@ -101,76 +98,14 @@ export default function App() {
                                         <InputLabel>Password</InputLabel>
                                         <Input onChange={onUpdatePassword} type='password'></Input>
                                     </FormControl>
-                                    <Button onClick={() => onLogin()}>Sign in</Button>
+                                    <Button style={{marginTop: 20}} variant="contained" color="primary" onClick={() => onLogin()}>Sign in</Button>
                                 </form>
                             </Container>
                         </div>
                     </Modal>: null
                 }
                 {currentMedia ?
-                    <Modal
-                        disableAutoFocus={true}
-                        open={currentMedia}
-                        onClose={() => onCloseCurrentMediaModal()}>
-                        <div style={getModalStyle()} className="paper">
-                            <Container fluid>
-                                <Row>
-                                    <Col md="auto" style={{padding: 0}}>
-                                        <img src={currentMedia.image} className="modal-poster" alt="logo" />
-                                    </Col>
-                                    <Col>
-                                        <Row>
-                                            <AppBar position="static" style={{height: '50px', alignItems: 'center', justifyContent: 'center'}}>
-                                                <Toolbar style={{height: '50px'}}>
-                                                    <Typography variant="h6">
-                                                        {currentMedia.title}
-                                                    </Typography>
-                                                </Toolbar>
-                                            </AppBar>
-                                        </Row>
-                                        <Container style={{paddingTop: '15px'}} fluid>
-                                            <Row>
-                                                {currentMedia.year}
-                                            </Row>
-                                            <Row>
-                                                {currentMedia.runtime} {currentMedia.rated}
-                                            </Row>
-                                            <Row style={{marginTop: '20px', marginBottom: '20px'}}>
-                                                {currentMedia.plot}
-                                            </Row>
-                                            <Row>
-                                                <Col md="2">
-                                                    <Row>
-                                                        Réalisation
-                                                    </Row>
-                                                    <Row>
-                                                        Genre
-                                                    </Row>
-                                                    <Row>
-                                                        Studio
-                                                    </Row>
-                                                </Col>
-                                                <Col md="5">
-                                                    <Row>
-                                                        {currentMedia.director}
-                                                    </Row>
-                                                    <Row>
-                                                        {currentMedia.genre}
-                                                    </Row>
-                                                    <Row>
-                                                        {currentMedia.production}
-                                                    </Row>
-                                                </Col>
-                                                <Col md="5" style={{alignItems: 'center'}}>
-                                                    <Rating name="read-only" value={currentMedia.imdbRating} max={10} readOnly />
-                                                </Col>
-                                            </Row>
-                                        </Container>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </div>
-                    </Modal>:null
+                    <MediaModal currentUser={currentUser} currentMedia={currentMedia}/>:null
                 }
                 {previews && previews.length > 0 && filter && filter.length >= 3?
                     <div className="card preview-container">
@@ -200,13 +135,16 @@ export default function App() {
                                 <Home/>
                             </Route>
                             <Route path="/catalogue">
-                                <Catalogue/>
+                                <Catalogue currentUser={currentUser}/>
                             </Route>
-                            <Route path="/content">
-                                <Content/>
+                            <Route path="/agenda">
+                                <Agenda/>
+                            </Route>
+                            <Route path="/forum">
+                                <Forum/>
                             </Route>
                             <Route path="/profile">
-                                <Profile/>
+                                <Profile currentUser={currentUser}/>
                             </Route>
                         </Switch>
                     </Container>

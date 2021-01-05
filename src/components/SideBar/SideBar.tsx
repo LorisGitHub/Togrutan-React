@@ -66,41 +66,43 @@ export default function SideBar (){
         >
             <Toolbar />
             <div>
-                <List>
+                <List style={{padding: 0}}>
                     <Link style={{ textDecoration: 'none', color: 'black' }} to="/home">
                         <ListItem button>
                             <ListItemIcon><HomeIcon /></ListItemIcon>
                             <ListItemText>Home</ListItemText>
                         </ListItem>
                     </Link>
+                    <Divider />
                     <Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">
                         <ListItem button>
                             <ListItemIcon><LocalLibraryIcon /></ListItemIcon>
-                            <ListItemText>Catalogue</ListItemText>
+                            <ListItemText>Library</ListItemText>
                         </ListItem>
                     </Link>
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/content">
+                    <Divider />
+                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/agenda">
                         <ListItem button>
                             <ListItemIcon><EventIcon /></ListItemIcon>
                             <ListItemText>Agenda</ListItemText>
                         </ListItem>
                     </Link>
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/catalogue">
+                    <Divider />
+                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/forum">
                         <ListItem button>
                             <ListItemIcon><ForumIcon /></ListItemIcon>
                             <ListItemText>Forum</ListItemText>
                         </ListItem>
                     </Link>
                 </List>
-                <Divider />
-                <List>
+{/*                <List>
                     {['All mail', 'Trash', 'Spam'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
                     ))}
-                </List>
+                </List>*/}
             </div>
         </Drawer>
     );

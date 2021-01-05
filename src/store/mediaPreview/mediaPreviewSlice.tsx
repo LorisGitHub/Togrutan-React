@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {MEDIAS_PREVIEW_URL, MEDIAS_URL} from "../../constants";
 import axios from "axios";
 
 export const mediaPreviewSlice = createSlice({
@@ -22,7 +21,7 @@ export const { loadAllPreviewSuccess, setSearchFilter } = mediaPreviewSlice.acti
 
 export const loadAllPreview = value => dispatch => {
     const authorizationJWT = 'JWT '+localStorage.getItem('JWT')
-    axios.get(MEDIAS_PREVIEW_URL.concat('?data=').concat(value), {
+    axios.get(process.env.REACT_APP_MEDIAS_PREVIEW_URL!.concat('?data=').concat(value), {
         headers: {
             'Authorization': authorizationJWT
         }

@@ -1,6 +1,4 @@
-import {createSelector, createSlice} from '@reduxjs/toolkit';
-import {MEDIAS_URL, SIGN_IN, USERS_URL} from "../../constants";
-import axios from "axios";
+import {createSlice} from '@reduxjs/toolkit';
 
 export const appSlice = createSlice({
     name: 'app',

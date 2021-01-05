@@ -1,10 +1,11 @@
 import React, {useEffect} from "react";
 import './Catalogue.css';
 import {useDispatch, useSelector} from "react-redux";
-import {loadAllMedia, selectMedias, selectMediasByGenre} from "../../store/media/mediaSlice";
+import {loadAllMedia, selectIsMediaLoading, selectMedias} from "../../store/media/mediaSlice";
 import {Media} from "../../constants";
-import {loadAllUsers} from "../../store/user/userSlice";
 import MovieCard from "../MovieCard/MovieCard";
+import {Row} from "react-bootstrap";
+import {CircularProgress} from "@material-ui/core";
 
 function getMediaByGenre(medias: Media[], genre: string, index: number){
     const filteredMedia: Media[] = [];
@@ -29,21 +30,33 @@ function getMediaByGenre(medias: Media[], genre: string, index: number){
     return null;
 }
 
-export default function Catalogue (){
+export default function Catalogue (props){
     const dispatch = useDispatch();
     const medias = useSelector(selectMedias);
-    const genres: string[] = ['Sci-Fi', 'Action', 'Fantasy', 'Thriller', 'Horror', 'Comedy', 'Romance', 'Mystery', 'Crime', 'Adventure', 'Animation', 'SuperHero'];
+    const isMediaLoading = useSelector(selectIsMediaLoading);
+    const genres: string[] = ['Sci-Fi', 'Action', 'Fantasy', 'Thriller', 'Horror', 'Comedy', 'Romance', 'Mystery', 'Crime', 'Adventure', 'Animation', 'SuperHero', 'Biography','Drama'];
 
     useEffect(() => {
-        dispatch(loadAllMedia(0));
-        dispatch(loadAllUsers(0));
+        if(props.currentUser){
+            dispatch(loadAllMedia(props.currentUser));
+        }
     }, []);
 
     return (
         <div className="catalogue-container">
-            {genres.map((genre, i) => {
-                return getMediaByGenre(medias, genre, i);
-            })}
+            <div style={{margin: '35px'}}>{isMediaLoading}</div>
+            {medias && medias.length > 0 ?
+                genres.map((genre, i) => {
+                        return getMediaByGenre(medias, genre, i);
+                }): isMediaLoading ?
+                    <div style={{margin: '30px', width: '100%', height: '500px', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+                        <CircularProgress style={{width: 200, height: 'auto', marginBottom: '30px'}}/>
+                        <h3>Loading your library...</h3>
+                    </div>:
+                    <div style={{margin: '30px', width: '100%', height: '500px', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+                        <h2>Your library is empty</h2>
+                    </div>
+            }
         </div>
     );
 }

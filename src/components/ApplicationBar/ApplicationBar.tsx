@@ -10,6 +10,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import {Link} from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -19,7 +20,7 @@ import {AppBar} from "@material-ui/core";
 import {setLoginModal, setDrawer} from "../../store/app/appSlice";
 import {loadAllPreview, setSearchFilter} from "../../store/mediaPreview/mediaPreviewSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {selectUsername} from "../../store/user/userSlice";
+import {logout, selectUsername} from "../../store/user/userSlice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -112,6 +113,10 @@ export default function ApplicationBar (){
         }
     };
 
+    const onLogout = () => {
+        dispatch(logout(0))
+    }
+
     return (
         <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
@@ -144,7 +149,7 @@ export default function ApplicationBar (){
                 </div>
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>
-                    <IconButton aria-label="show 4 new mails" color="inherit">
+{/*                    <IconButton aria-label="show 4 new mails" color="inherit">
                         <Badge badgeContent={4} color="secondary">
                             <MailIcon />
                         </Badge>
@@ -153,18 +158,30 @@ export default function ApplicationBar (){
                         <Badge badgeContent={17} color="secondary">
                             <NotificationsIcon />
                         </Badge>
-                    </IconButton>
+                    </IconButton>*/}
                     {loggedUsername ?
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/profile">
+                        <div>
+                            <Link style={{ textDecoration: 'none', color: 'white' }} to="/profile">
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-haspopup="true"
+                                    color="inherit"
+                                >
+                                    <AccountCircle />
+                                </IconButton>
+                            </Link>
                             <IconButton
                                 edge="end"
                                 aria-label="account of current user"
                                 aria-haspopup="true"
                                 color="inherit"
+                                onClick={() => onLogout()}
                             >
-                                <AccountCircle />
+                                <PowerSettingsNewIcon />
                             </IconButton>
-                        </Link>:
+                        </div>
+                        :
                         <IconButton
                             onClick={handleSignInModal}
                             edge="end"

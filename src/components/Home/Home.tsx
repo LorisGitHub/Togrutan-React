@@ -113,7 +113,7 @@ export default function Home (){
                         newsList2.map( (news, i) =>
                             <Paper key={i} style={{ maxWidth: 400, height: 'auto', margin: '25px 25px 0 0'}}>
                                 <img src={news.img} style={{ maxWidth: 400, height: 'auto'}}/>
-                                <p>{news.description}</p>
+                                <p style={{textAlign: 'center', marginTop: '1rem'}}>{news.description}</p>
                             </Paper>
                         )
                     }
