@@ -20,12 +20,7 @@ export const mediaPreviewSlice = createSlice({
 export const { loadAllPreviewSuccess, setSearchFilter } = mediaPreviewSlice.actions;
 
 export const loadAllPreview = value => dispatch => {
-    const authorizationJWT = 'JWT '+localStorage.getItem('JWT')
-    axios.get(process.env.REACT_APP_MEDIAS_PREVIEW_URL!.concat('?data=').concat(value), {
-        headers: {
-            'Authorization': authorizationJWT
-        }
-    }).then(res => {
+    axios.get(process.env.REACT_APP_DJANGO_SERV!.concat('/api/medias_preview').concat('?data=').concat(value)).then(res => {
         dispatch(loadAllPreviewSuccess(res.data));
     });
 };

@@ -1,15 +1,12 @@
 import React from 'react';
 import './ApplicationBar.css';
-import {Row} from "react-bootstrap";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
+import ClearIcon from '@material-ui/icons/Clear';
 import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import {Link} from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -17,7 +14,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import {fade, makeStyles} from "@material-ui/core/styles";
 import {AppBar} from "@material-ui/core";
-import {setLoginModal, setDrawer} from "../../store/app/appSlice";
+import {setDrawer, setLoginModal} from "../../store/app/appSlice";
 import {loadAllPreview, setSearchFilter} from "../../store/mediaPreview/mediaPreviewSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUsername} from "../../store/user/userSlice";
@@ -65,6 +62,15 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    clearIcon: {
+        padding: theme.spacing(0, 2),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     inputRoot: {
         color: 'inherit',
     },
@@ -72,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        paddingRight: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -146,6 +153,9 @@ export default function ApplicationBar (){
                         inputProps={{ 'aria-label': 'search' }}
                         onChange={onSearch}
                     />
+                    {/*<div className={classes.clearIcon}>*/}
+                    {/*    <ClearIcon/>*/}
+                    {/*</div>*/}
                 </div>
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>

@@ -53,7 +53,7 @@ export const loadAllMedia = user => dispatch => {
     if(user.dropped){
         idList = idList.concat(user.dropped)
     }
-    axios.post(process.env.REACT_APP_GET_MULTIPLE_MEDIAS!, {
+    axios.post(process.env.REACT_APP_DJANGO_SERV!.concat('/api/getMultipleMediaFromImdbID'), {
             ids: idList,
         }, {
         headers: {
@@ -67,14 +67,7 @@ export const loadAllMedia = user => dispatch => {
 };
 
 export const loadMediaById = id => dispatch => {
-    const authorizationJWT = 'JWT '+ localStorage.getItem('JWT')
-    axios.get(process.env.REACT_APP_GET_MEDIA_BY_ID!.concat('?imdbId=').concat(id), {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': authorizationJWT
-        }
-    }).then(res => {
-        console.log(res.data)
+    axios.get(process.env.REACT_APP_DJANGO_SERV!.concat('/api/getMediaFromImdbID').concat('?imdbId=').concat(id)).then(res => {
         dispatch(setCurrentMedia(res.data));
     });
 };

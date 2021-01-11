@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import {Container, Row} from "react-bootstrap";
 import {Button, FormControl, Input, InputLabel, Modal} from "@material-ui/core"
-import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch,} from "react-router-dom";
 import Agenda from "./components/Agenda/Agenda";
 import Home from "./components/Home/Home";
 import Catalogue from "./components/Catalogue/Catalogue";
@@ -19,6 +19,7 @@ import ApplicationBar from "./components/ApplicationBar/ApplicationBar";
 import {selectLoginModal, setLoginModal} from "./store/app/appSlice";
 import MediaModal from "./components/MediaModal/MediaModal";
 import Forum from "./components/Forum/Forum";
+import LoginModal from "./components/LoginModal/LoginModal";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,14 +29,6 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
 }));
-
-function getModalStyle() {
-    return {
-        top: `50%`,
-        left: `50%`,
-        transform: `translate(-50%, -50%)`,
-    };
-}
 
 export default function App() {
     const classes = useStyles();
@@ -53,56 +46,19 @@ export default function App() {
         }
     }, []);
 
-    let username = '';
-    let password = '';
-
-    const onUpdateUsername = (event) => {
-        username = event.target.value;
-    }
-
-    const onUpdatePassword = (event) => {
-        password = event.target.value;
-    }
-
-    const onLogin = () => {
-        dispatch(login({username, password}))
-    }
-
     const onSelectMoviePreview = (imdbID) => {
         dispatch(loadMediaById(imdbID));
     }
 
-    const onCloseLoginModal = () => {
-        dispatch(setLoginModal(false));
-    }
-
     return (
         <Router>
+            <Redirect from="/" to="home" />
             <div className={classes.root}>
                 <CssBaseline />
                 <ApplicationBar/>
                 <SideBar/>
                 {signInModalOpen ?
-                    <Modal
-                        disableAutoFocus={true}
-                        open={signInModalOpen}
-                        onClose={() => onCloseLoginModal()}>
-                        <div style={getModalStyle()} className="loginModal">
-                            <Container fluid className="flex-column">
-                                <form className="flex-column">
-                                    <FormControl>
-                                        <InputLabel>Username</InputLabel>
-                                        <Input onChange={onUpdateUsername} type='text'></Input>
-                                    </FormControl>
-                                    <FormControl>
-                                        <InputLabel>Password</InputLabel>
-                                        <Input onChange={onUpdatePassword} type='password'></Input>
-                                    </FormControl>
-                                    <Button style={{marginTop: 20}} variant="contained" color="primary" onClick={() => onLogin()}>Sign in</Button>
-                                </form>
-                            </Container>
-                        </div>
-                    </Modal>: null
+                    <LoginModal/>: null
                 }
                 {currentMedia ?
                     <MediaModal currentUser={currentUser} currentMedia={currentMedia}/>:null

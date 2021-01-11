@@ -92,7 +92,7 @@ export default function MediaModal (props){
     };
 
     const parseList = (list) => {
-        if(list && list.length > 0){
+        if(list && Array.isArray(list)){
             return list.join(', ')
         } else {
             return list;
@@ -108,7 +108,7 @@ export default function MediaModal (props){
                 <Container fluid>
                     <Row>
                         <Col md="auto" style={{padding: 0}}>
-                            <img src={props.currentMedia.image} className="modal-poster" alt="logo" />
+                                <img src={props.currentMedia.image && props.currentMedia.image != 'N/A' ? props.currentMedia.image: 'emptyposter.png'} className="modal-poster" alt="logo" />
                         </Col>
                         <Col>
                             <Row>
@@ -121,21 +121,23 @@ export default function MediaModal (props){
                                 </AppBar>
                             </Row>
                             <Container style={{paddingTop: '15px'}} fluid>
-                                <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px'}}>
-                                    Do you know this movie ?
-                                    <Select
-                                        style={{marginLeft: 20, width: 150}}
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={currentMediaState}
-                                        onChange={handleMediaStateChange}
-                                    >
-                                        <MenuItem value='none'>No</MenuItem>
-                                        <MenuItem value='watched'>Watched</MenuItem>
-                                        <MenuItem value='planToWatch'>Plan To Watch</MenuItem>
-                                        <MenuItem value='dropped'>Dropped</MenuItem>
-                                    </Select>
-                                </Row>
+                                {props.currentUser ?
+                                    <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px'}}>
+                                        Do you know this movie ?
+                                        <Select
+                                            style={{marginLeft: 20, width: 150}}
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={currentMediaState}
+                                            onChange={handleMediaStateChange}
+                                        >
+                                            <MenuItem value='none'>No</MenuItem>
+                                            <MenuItem value='watched'>Watched</MenuItem>
+                                            <MenuItem value='planToWatch'>Plan To Watch</MenuItem>
+                                            <MenuItem value='dropped'>Dropped</MenuItem>
+                                        </Select>
+                                    </Row>: null
+                                }
                                 <Row>
                                     <Col md="3">
                                         <Row style={{fontWeight: 'bold'}}>Release Date</Row>

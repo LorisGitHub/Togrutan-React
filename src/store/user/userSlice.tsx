@@ -9,13 +9,18 @@ export const userSlice = createSlice({
     initialState: {
         user: null,
         username: null,
+        isLogging: false,
         token: null,
         value: [],
     },
     reducers: {
+        setLoginState:(state, action) => {
+            state.isLogging = action.payload;
+        },
         loginSuccess: (state, action) => {
             state.username = action.payload.username;
             state.token = action.payload.token;
+            state.isLogging = false;
         },
         getUserInfoSuccess: (state, action) => {
             state.user = action.payload;
@@ -32,10 +37,11 @@ export const userSlice = createSlice({
     },
 });
 
-export const { loadAllUsersSuccess, getUserInfoSuccess, loginSuccess, logoutSuccess } = userSlice.actions;
+export const { setLoginState, loadAllUsersSuccess, getUserInfoSuccess, loginSuccess, logoutSuccess } = userSlice.actions;
 
 export const login = credentials => dispatch => {
-    axios.post(process.env.REACT_APP_SIGN_IN!,{
+    dispatch(setLoginState(true));
+    axios.post(process.env.REACT_APP_DJANGO_SERV!.concat('/api-token-auth/'),{
         username: credentials.username,
         password: credentials.password
     }).then(res => {
@@ -44,12 +50,15 @@ export const login = credentials => dispatch => {
         dispatch(loginSuccess({token: res.data.token, username: credentials.username}));
         dispatch(getUserInfo(credentials.username));
         dispatch(setLoginModal(false));
+    },
+    error => {
+        dispatch(setLoginState(true));
     });
 };
 
 export const getUserInfo = username => dispatch => {
     const authorizationJWT = 'JWT '+ localStorage.getItem('JWT')
-    axios.get(process.env.REACT_APP_USER_INFO!.concat('?username=').concat(username),{
+    axios.get(process.env.REACT_APP_DJANGO_SERV!.concat('/api/user').concat('?username=').concat(username),{
         headers: {
             'Content-Type': 'application/json',
             'Authorization': authorizationJWT
@@ -68,7 +77,7 @@ export const getUserInfo = username => dispatch => {
 
 export const updateUserInfo = user => dispatch => {
     const authorizationJWT = 'JWT '+ localStorage.getItem('JWT')
-    axios.post(process.env.REACT_APP_USER_INFO!,{
+    axios.post(process.env.REACT_APP_DJANGO_SERV!.concat('/api/user'),{
         user: JSON.stringify(user),
     },{
         headers: {
@@ -88,7 +97,7 @@ export const logout = user => dispatch => {
 
 export const loadAllUsers = amount => dispatch => {
     const authorizationJWT = 'JWT '+localStorage.getItem('JWT')
-    axios.get(process.env.REACT_APP_USERS_URL!, {
+    axios.get(process.env.REACT_APP_API!.concat('users'), {
         headers: {
             'Authorization': authorizationJWT
         }
@@ -99,6 +108,7 @@ export const loadAllUsers = amount => dispatch => {
 
 export const selectUsername = state => state.user.username;
 export const selectCurrentUser = state => state.user.user;
+export const selectLoggingState = state => state.user.isLogging;
 export const selectUsers = state => state.user.value;
 
 export default userSlice.reducer;
