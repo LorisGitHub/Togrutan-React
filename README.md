@@ -2,7 +2,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Setup
 
-### `npm i`
+### To install the required dependencies
+`npm i`
+
+### Link to the server
+You can edit the ip and port in the `.env` file to your server ones
 
 ## Available Scripts
 

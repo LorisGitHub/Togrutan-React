@@ -4,12 +4,12 @@ import Carousel from "react-material-ui-carousel";
 import {List, ListItem, Paper} from "@material-ui/core";
 import {Col, Row} from "react-bootstrap";
 
-function Item(props)
+function CarouselItem(props)
 {
     return (
         <Paper>
             <img src={props.item.img}/>
-            <h2>{props.item.description}</h2>
+            <h2 style={{textAlign: 'center'}} >{props.item.description}</h2>
         </Paper>
     )
 }
@@ -92,7 +92,7 @@ export default function Home (){
                 <Col md={8}>
                     <Carousel>
                         {
-                            items.map( (item, i) => <Item key={i} item={item} /> )
+                            items.map( (item, i) => <CarouselItem key={i} item={item} /> )
                         }
                     </Carousel>
                 </Col>

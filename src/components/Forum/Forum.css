@@ -1,1 +1,4 @@
-.Forum {}
+.white-cell{
+    color: white !important;
+    font-weight: bold !important;
+}
